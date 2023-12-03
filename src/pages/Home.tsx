@@ -4,12 +4,12 @@ import { getPokemons } from "../store/modules/pokemons/pokemonsSlice";
 import "../app.css";
 import Header from "../components/header/Header";
 import { Grid, Pagination, Stack } from "@mui/material";
-
 import "swiper/css";
 import CardPokemon from "../components/CardPokemon";
 
 export default function Home() {
   const pokemonsRedux = useAppSelector((state) => state.pokemons);
+  console.log(pokemonsRedux.pokemons, "pokemons");
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
 

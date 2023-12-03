@@ -31,11 +31,11 @@ interface Abilities {
   effect_entries: AbilitiesEffects[];
 }
 
-interface Ability {
-  is_hidden: boolean;
-  slot: number;
-  abilities?: Abilities[];
-}
+// interface Ability {
+//   is_hidden: boolean;
+//   slot: number;
+//   abilities?: Abilities[];
+// }
 
 interface PokemonHeldItem {
   item: NamedAPIResource;
@@ -65,7 +65,7 @@ export interface PokemonType {
   base_experience: number;
   height: number;
   weight: number;
-  abilities: Ability[];
+  abilities: Abilities[];
   forms: NamedAPIResource[];
   held_items: PokemonHeldItem[];
   location_area_encounters: string;
@@ -94,6 +94,52 @@ const initialState: PokemonsSliceType = {
   loading: false,
 };
 
+// export const getPokemons = createAsyncThunk("pokemons/getPokemons", async (urlParams: string | undefined) => {
+//   const url = urlParams ? urlParams : "https://pokeapi.co/api/v2/pokemon";
+//   try {
+//     const response = await axios.get(url);
+//     if (response.status === 200) {
+//       const { data } = response;
+
+//       const promisesPokemons = data.results.map(async (pokemon: NamedAPIResource) => {
+//         const response = await axios.get(pokemon.url);
+
+//         if (response.status === 200) {
+//           const { data } = response;
+
+//           const abilitiesPromises = data.abilities.map(async (abilityResource: NamedAPIResource) => {
+//             const resAbilities = await axios.get(abilityResource.url);
+//             return {
+//               id: resAbilities.data.id,
+//               name: resAbilities.data.name,
+//               effect_entries: resAbilities.data.effect_entries,
+//             };
+//           });
+
+//           const abilitiesResolved = await Promise.all(abilitiesPromises);
+//           console.log(abilitiesResolved, '------')
+
+
+//           return pokemon;
+//         }
+
+//         return null;
+//       });
+
+//       const pokemons = await Promise.all(promisesPokemons);
+
+//       return {
+//         count: data.count,
+//         next: data.next,
+//         previous: data.previous,
+//         pokemons: pokemons.filter((p) => p !== null) as PokemonType[],
+//       };
+//     }
+//   } catch (error) {
+//     throw "Erro ao buscar pokemons";
+//   }
+// });
+
 export const getPokemons = createAsyncThunk("pokemons/getPokemons", async (urlParams: string | undefined) => {
   const url = urlParams ? urlParams : "https://pokeapi.co/api/v2/pokemon";
   try {
@@ -101,11 +147,27 @@ export const getPokemons = createAsyncThunk("pokemons/getPokemons", async (urlPa
     if (response.status === 200) {
       const { data } = response;
 
-      const promisesPokemons = data.results.map(async (pokemon: any) => {
-        const response = await axios.get(pokemon.url);
+      const promisesPokemons = data.results.map(async (pokemonResource: NamedAPIResource) => {
+        try {
+          const responsePokemon = await axios.get(pokemonResource.url);
+          const data = responsePokemon.data;
 
-        if (response.status === 200) {
-          const { data } = response;
+          const abilitiesPromises = data.abilities.map(async (abilityResource: any) => {
+            try {
+              const resAbilities = await axios.get(abilityResource.ability.url);
+              return {
+                id: resAbilities.data.id,
+                name: resAbilities.data.name,
+                effect_entries: resAbilities.data.effect_entries,
+              };
+            } catch (error) {
+              console.error("Erro ao buscar habilidades:", error);
+              return null; 
+            }
+          });
+
+          const abilitiesResolved = await Promise.all(abilitiesPromises);
+
           const pokemon: PokemonType = {
             id: data.id,
             name: data.name,
@@ -117,30 +179,34 @@ export const getPokemons = createAsyncThunk("pokemons/getPokemons", async (urlPa
             base_experience: data.base_experience,
             height: data.height,
             weight: data.weight,
-            abilities: data.abilities,
+            abilities: abilitiesResolved.filter((a) => a !== null),
             forms: data.forms,
             held_items: data.held_items,
             location_area_encounters: data.location_area_encounters,
             moves: data.moves,
             stats: data.stats,
           };
-          return pokemon;
-        }
 
-        return null;
+
+          return pokemon
+        } catch (error) {
+          console.error("Erro ao buscar informações do pokémon:", error);
+          return null;
+        }
       });
 
-      const pokemons = await Promise.all(promisesPokemons);
+      const pokemonsResolved = (await Promise.all(promisesPokemons)).filter((p) => p !== null);
 
       return {
         count: data.count,
         next: data.next,
         previous: data.previous,
-        pokemons: pokemons as PokemonType[],
+        pokemons: pokemonsResolved,
       };
     }
   } catch (error) {
-    throw "Erro ao buscar pokemons";
+    console.error("Erro geral ao buscar pokemons:", error);
+    throw error;
   }
 });
 
