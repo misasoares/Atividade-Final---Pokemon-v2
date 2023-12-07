@@ -84,6 +84,7 @@ export interface PokemonsSliceType {
   previous: string | null;
   pokemons: PokemonType[];
   loading: boolean;
+  favPokemons: number[];
 }
 
 const initialState: PokemonsSliceType = {
@@ -92,53 +93,8 @@ const initialState: PokemonsSliceType = {
   previous: "",
   pokemons: [],
   loading: false,
+  favPokemons: [],
 };
-
-// export const getPokemons = createAsyncThunk("pokemons/getPokemons", async (urlParams: string | undefined) => {
-//   const url = urlParams ? urlParams : "https://pokeapi.co/api/v2/pokemon";
-//   try {
-//     const response = await axios.get(url);
-//     if (response.status === 200) {
-//       const { data } = response;
-
-//       const promisesPokemons = data.results.map(async (pokemon: NamedAPIResource) => {
-//         const response = await axios.get(pokemon.url);
-
-//         if (response.status === 200) {
-//           const { data } = response;
-
-//           const abilitiesPromises = data.abilities.map(async (abilityResource: NamedAPIResource) => {
-//             const resAbilities = await axios.get(abilityResource.url);
-//             return {
-//               id: resAbilities.data.id,
-//               name: resAbilities.data.name,
-//               effect_entries: resAbilities.data.effect_entries,
-//             };
-//           });
-
-//           const abilitiesResolved = await Promise.all(abilitiesPromises);
-//           console.log(abilitiesResolved, '------')
-
-
-//           return pokemon;
-//         }
-
-//         return null;
-//       });
-
-//       const pokemons = await Promise.all(promisesPokemons);
-
-//       return {
-//         count: data.count,
-//         next: data.next,
-//         previous: data.previous,
-//         pokemons: pokemons.filter((p) => p !== null) as PokemonType[],
-//       };
-//     }
-//   } catch (error) {
-//     throw "Erro ao buscar pokemons";
-//   }
-// });
 
 export const getPokemons = createAsyncThunk("pokemons/getPokemons", async (urlParams: string | undefined) => {
   const url = urlParams ? urlParams : "https://pokeapi.co/api/v2/pokemon";
@@ -162,7 +118,7 @@ export const getPokemons = createAsyncThunk("pokemons/getPokemons", async (urlPa
               };
             } catch (error) {
               console.error("Erro ao buscar habilidades:", error);
-              return null; 
+              return null;
             }
           });
 
@@ -187,8 +143,7 @@ export const getPokemons = createAsyncThunk("pokemons/getPokemons", async (urlPa
             stats: data.stats,
           };
 
-
-          return pokemon
+          return pokemon;
         } catch (error) {
           console.error("Erro ao buscar informações do pokémon:", error);
           return null;
@@ -202,6 +157,7 @@ export const getPokemons = createAsyncThunk("pokemons/getPokemons", async (urlPa
         next: data.next,
         previous: data.previous,
         pokemons: pokemonsResolved,
+        favPokemons: [],
       };
     }
   } catch (error) {
@@ -216,6 +172,16 @@ const pokemonsSlice = createSlice({
   reducers: {
     clear() {
       return initialState;
+    },
+    toggleFav(state, action) {
+      const pokemonId = action.payload;
+      const isFavorite = state.favPokemons.includes(pokemonId);
+
+      if (isFavorite) {
+        state.favPokemons = state.favPokemons.filter((id) => id !== pokemonId);
+      } else {
+        state.favPokemons.push(pokemonId);
+      }
     },
   },
   extraReducers: (builder) => {
@@ -233,6 +199,7 @@ const pokemonsSlice = createSlice({
         state.next = action.payload?.next;
         state.previous = action.payload?.previous;
         state.pokemons = action.payload?.pokemons || [];
+        state.favPokemons = state.favPokemons || [];
 
         state.loading = false;
 
@@ -241,5 +208,5 @@ const pokemonsSlice = createSlice({
   },
 });
 
-export const { clear } = pokemonsSlice.actions;
+export const { clear, toggleFav } = pokemonsSlice.actions;
 export default pokemonsSlice.reducer;

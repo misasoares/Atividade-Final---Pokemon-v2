@@ -9,7 +9,6 @@ import CardPokemon from "../components/CardPokemon";
 
 export default function Home() {
   const pokemonsRedux = useAppSelector((state) => state.pokemons);
-  console.log(pokemonsRedux.pokemons, "pokemons");
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
 
