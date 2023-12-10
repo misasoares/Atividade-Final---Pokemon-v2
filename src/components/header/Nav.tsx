@@ -25,6 +25,7 @@ export default function Nav({ children }: NavProps) {
   const navigate = useNavigate();
   const countPageHome = Math.ceil(countPokemons / 20);
   const countPageFav = Math.ceil(countPokemonsFav / 20);
+  console.log(countPokemonsFav)
 
   useEffect(() => {
     if (page === 1) {
@@ -35,7 +36,7 @@ export default function Nav({ children }: NavProps) {
   }, [page]);
 
   return (
-    <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column", alignItems: "center" }}>
+    <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", alignItems: "center" }}>
       <div style={{ width: "100%" }}>
         <BottomNavigation
           sx={{ justifyContent: "space-evenly" }}
@@ -53,7 +54,7 @@ export default function Nav({ children }: NavProps) {
             </Typography>
           </div>
           <BottomNavigationAction onClick={() => navigate("/")} label="All" icon={<HomeIcon />} />
-          <BottomNavigationAction onClick={() => navigate("/favorites")} label="Favoritos" icon={<FavoriteIcon />} />
+          <BottomNavigationAction onClick={() => navigate("/favorites")} label="Pokedex" icon={<FavoriteIcon />} />
         </BottomNavigation>
       </div>
 

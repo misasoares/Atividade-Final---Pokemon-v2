@@ -1,6 +1,7 @@
 import { Grid } from "@mui/material";
 import { useAppSelector } from "../store/hooks";
-import CardPokemon from "../components/CardPokemon";
+
+import CardPokedex from "../components/CardPokedex";
 
 export default function FavPokemons() {
   const favPokemons = useAppSelector((state) => state.pokemons.favPokemons);
@@ -11,7 +12,7 @@ export default function FavPokemons() {
   return (
     <>
       <Grid container>
-        <CardPokemon pokemons={filtered} />
+        <CardPokedex pokemons={filtered} />
       </Grid>
     </>
   );

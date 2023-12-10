@@ -60,18 +60,18 @@ export default function CardPokemon({ pokemons }: CardProps) {
           </SwiperSlide>
           <SwiperSlide onClick={() => handleFav(pokemon.id)}>
             <div style={{ display: "flex", marginLeft: "20px", marginRight: "20px", justifyContent: "space-between" }}>
-              <p>{pokemon.id}</p>
+              <p>{pokemon.name}</p>
               <p>{favPokemon.includes(pokemon.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}</p>
             </div>
 
-            <div style={{ position: "relative", top: "40px" }}>
+            <div style={{ position: "relative", top: "22px" }}>
               <p style={{ fontSize: "20px", marginTop: "-20px" }}>
                 <span>Base Experience: </span>
                 {pokemon.base_experience}
               </p>
 
-              <p>
-                Abilities:{" "}
+              <p style={{ marginBlockStart: "-10px" }}>
+                Abilities: <p style={{ fontSize: "12px", marginBlockStart: "0px" }}>Hold/Over for details</p>
                 {pokemon.abilities.map((ability) => (
                   <span style={{ display: "flex", flexDirection: "column", marginTop: "-10px" }}>
                     <Tooltip
@@ -104,7 +104,7 @@ export default function CardPokemon({ pokemons }: CardProps) {
 
           <SwiperSlide onClick={() => handleFav(pokemon.id)}>
             <div style={{ display: "flex", marginLeft: "20px", marginRight: "20px", justifyContent: "space-between" }}>
-              <p>{pokemon.id}</p>
+              <p>{pokemon.name}</p>
               <p>{favPokemon.includes(pokemon.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}</p>
             </div>
 
