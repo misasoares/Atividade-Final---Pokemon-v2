@@ -6,7 +6,6 @@ import { Button, Tooltip } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-
 interface CardProps {
   pokemons: PokemonType[];
 }
@@ -17,6 +16,7 @@ export default function CardPokemon({ pokemons }: CardProps) {
 
   function handleFav(id: number) {
     dispatch(toggleFav(id));
+    console.log(id)
   }
 
   return (
@@ -30,86 +30,86 @@ export default function CardPokemon({ pokemons }: CardProps) {
             </div>
 
             <img src={pokemon.sprites.front_default} />
-            <h4 style={{ position: "relative", bottom: "50px" }}>{pokemon.name}</h4>
+            <h4 style={{ position: "fixed", bottom: "70px", left: "65px", marginBlockEnd: "30px" }}>{pokemon.name}</h4>
+
+            <div style={{ color: "#ffff00", borderRadius: " 0 0 10px 10px", height: "90px", fontSize: "15px", position: "relative", bottom: "65px" }}>
+              <p>
+                {pokemon.stats.map((stat) => (
+                  <span key={stat.stat.name}>
+                    {stat.stat.name}: {stat.base_stat},&nbsp;
+                  </span>
+                ))}
+              </p>
+            </div>
           </SwiperSlide>
           <SwiperSlide>
             <div style={{ display: "flex", marginLeft: "20px", marginRight: "20px", justifyContent: "space-between" }}>
               <p>{pokemon.name}</p>
-              <p>
-                <FavoriteBorderIcon />
-              </p>
+              <p onClick={() => handleFav(pokemon.id)}>{favPokemon.includes(pokemon.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}</p>
             </div>
 
-            <h4>Stats:</h4>
-            {pokemon.stats.map((stat) => (
-              <div>
-                <p style={{ fontSize: "20px", marginTop: "-20px" }}>{stat.stat.name}:</p>
-                <p style={{ fontSize: "15px", marginTop: "-20px" }}>
-                  Base stat: {stat.base_stat}, Effort: {stat.effort}
-                </p>
-              </div>
-            ))}
+            <div style={{ position: "relative", bottom: "50px" }}>
+              <h4 style={{ marginBlockStart: "50px", marginBlockEnd: "15px" }}>Stats:</h4>
+              <p style={{ fontSize: "15px" }}>
+                {pokemon.stats.map((stat) => (
+                  <span key={stat.stat.name + stat.base_stat} style={{ fontSize: "12px" }}>
+                    <span style={{ color: "yellow" }}>{stat.stat.name.toUpperCase()}:</span> Base stat: {stat.base_stat}, Effort: {stat.effort} <br />
+                  </span>
+                ))}
+              </p>
+            </div>
           </SwiperSlide>
           <SwiperSlide>
             <div style={{ display: "flex", marginLeft: "20px", marginRight: "20px", justifyContent: "space-between" }}>
-              <p>{pokemon.name}</p>
-              <p>
-                <FavoriteBorderIcon />
-              </p>
+              <p>{pokemon.id}</p>
+              <p onClick={() => handleFav(pokemon.id)}>{favPokemon.includes(pokemon.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}</p>
             </div>
 
-            <h4>Base Experience:</h4>
-            <p style={{ fontSize: "20px", marginTop: "-20px" }}>{pokemon.base_experience}</p>
+            <div style={{ position: "relative", top: "40px" }}>
+              <p style={{ fontSize: "20px", marginTop: "-20px" }}>
+                <span>Base Experience: </span>
+                {pokemon.base_experience}
+              </p>
 
-            <h4>Abilities:</h4>
+              <p>
+                Abilities:{" "}
+                {pokemon.abilities.map((ability) => (
+                  <span style={{ display: "flex", flexDirection: "column", marginTop: "-10px" }}>
+                    <Tooltip
+                      title={ability.effect_entries.map((fx) => (
+                        <div style={{ fontSize: "10px" }}>
+                          <p>
+                            <span style={{ color: "red" }}>Effect: </span>
+                            {fx.effect}
+                          </p>
+                          <p>
+                            <span style={{ color: "red" }}>Short Effect: </span>
+                            {fx.short_effect}
+                          </p>
+                        </div>
+                      ))}
+                      arrow
+                    >
+                      <Button style={{ color: "white", fontSize: "15px" }}>
+                        <u>{ability.name}</u>
+                      </Button>
+                    </Tooltip>
+                  </span>
+                ))}
+              </p>
 
-            {pokemon.abilities.map((ability) => (
-              <div style={{ display: "flex", flexDirection: "column", marginTop: "-10px" }}>
-                <Tooltip
-                  title={ability.effect_entries.map((fx) => (
-                    <div style={{ fontSize: "10px" }}>
-                      <p>
-                        <span style={{ color: "red" }}>Effect: </span>
-                        {fx.effect}
-                      </p>
-                      <p>
-                        <span style={{ color: "red" }}>Short Effect: </span>
-                        {fx.short_effect}
-                      </p>
-                    </div>
-                  ))}
-                  arrow
-                >
-                  <Button style={{ color: "white", fontSize: "15px" }}>
-                    <u>{ability.name}</u>
-                  </Button>
-                </Tooltip>
-              </div>
-            ))}
+              <p style={{ marginBlockEnd: "-20px", fontSize: "20px" }}>Heigth: {pokemon.height}</p>
+              <p style={{ fontSize: "20px" }}>Weigth: {pokemon.weight}</p>
+            </div>
           </SwiperSlide>
+
           <SwiperSlide>
             <div style={{ display: "flex", marginLeft: "20px", marginRight: "20px", justifyContent: "space-between" }}>
-              <p>{pokemon.name}</p>
-              <p>
-                <FavoriteBorderIcon />
-              </p>
+              <p>{pokemon.id}</p>
+              <p onClick={() => handleFav(pokemon.id)}>{favPokemon.includes(pokemon.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}</p>
             </div>
 
-            <h4>Height:</h4>
-            <p>{pokemon.height}</p>
-
-            <h4>Weight:</h4>
-            <p>{pokemon.weight}</p>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div style={{ display: "flex", marginLeft: "20px", marginRight: "20px", justifyContent: "space-between" }}>
-              <p>{pokemon.name}</p>
-              <p>
-                <FavoriteBorderIcon />
-              </p>
-            </div>
-
-            <h4>Held Items:</h4>
+            <p style={{ fontSize: "20px" }}>Held Items:</p>
             {pokemon.held_items.length > 0 ? (
               pokemon.held_items.map((item) => (
                 <div>

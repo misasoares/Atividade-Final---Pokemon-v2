@@ -1,15 +1,16 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from '../pages/Home'
 import FavPokemons from "../pages/FavPokemons";
+import Nav from "../components/header/Nav";
 
 const router = createBrowserRouter([
     {
         path:'/',
-        element: <Home/>
+        element: <Nav children={<Home/>}/>
     },
     {
         path:'/favorites',
-        element:<FavPokemons/>
+        element:<Nav children={<FavPokemons/>}/>
     }
 ])
 
