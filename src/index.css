@@ -1,5 +1,18 @@
-body{
-    margin: 0;
-    position: relative;
-    height: 100%;
+body {
+  margin: 0;
+  position: relative;
+  height: 100%;
+
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: darken;
+  background-image: url("./images/fundo-ruidoso.jpg");
+  opacity: 0.2;
 }

@@ -16,17 +16,16 @@ export default function CardPokemon({ pokemons }: CardProps) {
 
   function handleFav(id: number) {
     dispatch(toggleFav(id));
-    console.log(id)
   }
 
   return (
     <>
       {pokemons.map((pokemon) => (
         <Swiper effect={"cards"} grabCursor={true} modules={[EffectCards]} className="mySwiper">
-          <SwiperSlide>
+          <SwiperSlide onClick={() => handleFav(pokemon.id)}>
             <div style={{ display: "flex", marginLeft: "20px", marginRight: "20px", justifyContent: "space-between" }}>
               <p>{pokemon.id}</p>
-              <p onClick={() => handleFav(pokemon.id)}>{favPokemon.includes(pokemon.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}</p>
+              <p>{favPokemon.includes(pokemon.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}</p>
             </div>
 
             <img src={pokemon.sprites.front_default} />
@@ -42,10 +41,10 @@ export default function CardPokemon({ pokemons }: CardProps) {
               </p>
             </div>
           </SwiperSlide>
-          <SwiperSlide>
+          <SwiperSlide onClick={() => handleFav(pokemon.id)}>
             <div style={{ display: "flex", marginLeft: "20px", marginRight: "20px", justifyContent: "space-between" }}>
               <p>{pokemon.name}</p>
-              <p onClick={() => handleFav(pokemon.id)}>{favPokemon.includes(pokemon.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}</p>
+              <p>{favPokemon.includes(pokemon.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}</p>
             </div>
 
             <div style={{ position: "relative", bottom: "50px" }}>
@@ -59,10 +58,10 @@ export default function CardPokemon({ pokemons }: CardProps) {
               </p>
             </div>
           </SwiperSlide>
-          <SwiperSlide>
+          <SwiperSlide onClick={() => handleFav(pokemon.id)}>
             <div style={{ display: "flex", marginLeft: "20px", marginRight: "20px", justifyContent: "space-between" }}>
               <p>{pokemon.id}</p>
-              <p onClick={() => handleFav(pokemon.id)}>{favPokemon.includes(pokemon.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}</p>
+              <p>{favPokemon.includes(pokemon.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}</p>
             </div>
 
             <div style={{ position: "relative", top: "40px" }}>
@@ -103,10 +102,10 @@ export default function CardPokemon({ pokemons }: CardProps) {
             </div>
           </SwiperSlide>
 
-          <SwiperSlide>
+          <SwiperSlide onClick={() => handleFav(pokemon.id)}>
             <div style={{ display: "flex", marginLeft: "20px", marginRight: "20px", justifyContent: "space-between" }}>
               <p>{pokemon.id}</p>
-              <p onClick={() => handleFav(pokemon.id)}>{favPokemon.includes(pokemon.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}</p>
+              <p>{favPokemon.includes(pokemon.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}</p>
             </div>
 
             <p style={{ fontSize: "20px" }}>Held Items:</p>

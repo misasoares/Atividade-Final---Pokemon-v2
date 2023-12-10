@@ -35,7 +35,7 @@ export default function Nav({ children }: NavProps) {
   }, [page]);
 
   return (
-    <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", alignItems: "center" }}>
+    <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column", alignItems: "center" }}>
       <div style={{ width: "100%" }}>
         <BottomNavigation
           sx={{ justifyContent: "space-evenly" }}
