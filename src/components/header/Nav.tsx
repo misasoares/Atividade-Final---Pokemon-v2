@@ -58,7 +58,8 @@ export default function Nav({ children }: NavProps) {
             <CatchingPokemonIcon sx={{ color: "#666666" }} />
             <Typography variant="h5" fontWeight="bold" color="#666666">
               {" "}
-              POKEMONS{" "}
+              {value === 1 ? "POKEMONS" : "POKEDEX"}
+              {" "}
             </Typography>
           </div>
           <BottomNavigationAction onClick={() => navigate("/")} label="All" icon={<HomeIcon />} />
