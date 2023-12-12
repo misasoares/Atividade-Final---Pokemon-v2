@@ -63,7 +63,7 @@ export default function Nav({ children }: NavProps) {
             </Typography>
           </div>
           <BottomNavigationAction onClick={() => navigate("/")} label="All" icon={<HomeIcon />} />
-          <BottomNavigationAction onClick={() => navigate("/favorites")} label="Pokedex" icon={<FavoriteIcon />} />
+          <BottomNavigationAction onClick={() => navigate("/pokedex")} label="Pokedex" icon={<FavoriteIcon />} />
         </BottomNavigation>
       </div>
       <TextField value={search} onChange={(e) => setSearch(e.target.value)} label="Search" />
