@@ -1,5 +1,5 @@
 import "../app.css";
-import { Grid } from "@mui/material";
+import { Box, CircularProgress, Grid } from "@mui/material";
 import "swiper/css";
 import CardPokemon from "../components/CardPokemon";
 import { useAppSelector } from "../store/hooks";
@@ -9,9 +9,15 @@ export default function Home() {
 
   return (
     <div className="App">
-      <Grid container>
-        <CardPokemon pokemons={pokemonsRedux.pokemons} />
-      </Grid>
+      {pokemonsRedux.loading ? (
+        <Box sx={{ display: "flex", height:'100vh', justifyContent:'center', alignItems:'center' }}>
+          <CircularProgress />
+        </Box>
+      ) : (
+        <Grid container>
+          <CardPokemon pokemons={pokemonsRedux.pokemons} />
+        </Grid>
+      )}
     </div>
   );
 }
